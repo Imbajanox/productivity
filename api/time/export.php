@@ -162,6 +162,9 @@ try {
         
         $totalSeconds = array_sum(array_column($entries, 'duration_seconds'));
         
+        // German weekday names for mapping
+        $weekdayMap = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+        
         jsonResponse([
             'success' => true,
             'data' => [
@@ -182,9 +185,8 @@ try {
                         'hours' => $formatDurationDecimal($seconds)
                     ];
                 }, array_keys($projectSummary), array_values($projectSummary)),
-                'by_date' => array_map(function($date, $data) use ($formatDuration) {
+                'by_date' => array_map(function($date, $data) use ($formatDuration, $weekdayMap) {
                     $timestamp = strtotime($date);
-                    $weekdayMap = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
                     return [
                         'date' => date('d.m.Y', $timestamp),
                         'weekday' => $weekdayMap[date('w', $timestamp)],
