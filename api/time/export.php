@@ -183,9 +183,11 @@ try {
                     ];
                 }, array_keys($projectSummary), array_values($projectSummary)),
                 'by_date' => array_map(function($date, $data) use ($formatDuration) {
+                    $timestamp = strtotime($date);
+                    $weekdayMap = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
                     return [
-                        'date' => date('d.m.Y', strtotime($date)),
-                        'weekday' => strftime('%A', strtotime($date)),
+                        'date' => date('d.m.Y', $timestamp),
+                        'weekday' => $weekdayMap[date('w', $timestamp)],
                         'entries' => count($data['entries']),
                         'duration' => $formatDuration($data['total_seconds'])
                     ];
