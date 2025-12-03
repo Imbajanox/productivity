@@ -26,54 +26,67 @@ try {
         [$userId]
     );
 
-    // Wenn keine Aktivitäten vorhanden sind, Demo-Daten erstellen
-    if (empty($activities)) {
-        $demoActivities = [
-            ['action_type' => 'todo_completed', 'description' => 'Todo "Projekt planen" erledigt', 'time' => 'vor 2h'],
-            ['action_type' => 'time_logged', 'description' => '2h an "Webentwicklung" gearbeitet', 'time' => 'vor 3h'],
-            ['action_type' => 'note_created', 'description' => 'Notiz "Meeting-Notizen" erstellt', 'time' => 'vor 5h'],
-            ['action_type' => 'project_created', 'description' => 'Projekt "Produktivitätstool" erstellt', 'time' => 'vor 1d'],
+    // Aktivitäten formatieren
+    $formattedActivities = array_map(function($activity) {
+        $description = '';
+        $metadata = $activity['metadata'] ? json_decode($activity['metadata'], true) : [];
+        
+        switch ($activity['action_type']) {
+            case 'todo_completed':
+                $title = $metadata['title'] ?? 'Todo';
+                $description = "Todo \"$title\" erledigt";
+                break;
+            case 'todo_created':
+                $title = $metadata['title'] ?? 'Todo';
+                $description = "Todo \"$title\" erstellt";
+                break;
+            case 'todo_updated':
+                $title = $metadata['title'] ?? 'Todo';
+                $description = "Todo \"$title\" aktualisiert";
+                break;
+            case 'todo_deleted':
+                $title = $metadata['title'] ?? 'Todo';
+                $description = "Todo \"$title\" gelöscht";
+                break;
+            case 'time_logged':
+                $duration = isset($metadata['duration_seconds']) ? formatDuration($metadata['duration_seconds']) : '?';
+                $projectName = $metadata['project_name'] ?? 'Allgemein';
+                $description = "$duration an \"$projectName\" gearbeitet";
+                break;
+            case 'note_created':
+                $title = $metadata['title'] ?? 'Notiz';
+                $description = "Notiz \"$title\" erstellt";
+                break;
+            case 'note_updated':
+                $title = $metadata['title'] ?? 'Notiz';
+                $description = "Notiz \"$title\" aktualisiert";
+                break;
+            case 'note_deleted':
+                $title = $metadata['title'] ?? 'Notiz';
+                $description = "Notiz \"$title\" gelöscht";
+                break;
+            case 'project_created':
+                $name = $metadata['name'] ?? 'Projekt';
+                $description = "Projekt \"$name\" erstellt";
+                break;
+            case 'project_updated':
+                $name = $metadata['name'] ?? 'Projekt';
+                $description = "Projekt \"$name\" aktualisiert";
+                break;
+            case 'project_deleted':
+                $name = $metadata['name'] ?? 'Projekt';
+                $description = "Projekt \"$name\" gelöscht";
+                break;
+            default:
+                $description = ucfirst(str_replace('_', ' ', $activity['action_type']));
+        }
+
+        return [
+            'description' => $description,
+            'time' => timeAgo($activity['created_at']),
+            'type' => $activity['action_type']
         ];
-
-        $formattedActivities = array_map(function($activity) {
-            return [
-                'description' => $activity['description'],
-                'time' => $activity['time'],
-                'type' => $activity['action_type']
-            ];
-        }, $demoActivities);
-    } else {
-        // Aktivitäten formatieren
-        $formattedActivities = array_map(function($activity) {
-            $description = '';
-
-            switch ($activity['action_type']) {
-                case 'todo_completed':
-                    $description = 'Todo erledigt';
-                    break;
-                case 'todo_created':
-                    $description = 'Todo erstellt';
-                    break;
-                case 'time_logged':
-                    $description = 'Zeit erfasst';
-                    break;
-                case 'note_created':
-                    $description = 'Notiz erstellt';
-                    break;
-                case 'project_created':
-                    $description = 'Projekt erstellt';
-                    break;
-                default:
-                    $description = ucfirst(str_replace('_', ' ', $activity['action_type']));
-            }
-
-            return [
-                'description' => $description,
-                'time' => timeAgo($activity['created_at']),
-                'type' => $activity['action_type']
-            ];
-        }, $activities);
-    }
+    }, $activities);
 
     jsonSuccess($formattedActivities);
 } catch (Exception $e) {

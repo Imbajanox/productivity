@@ -35,6 +35,9 @@ try {
     
     $project = dbFetchOne("SELECT * FROM projects WHERE id = ?", [$projectId]);
     
+    // Log activity
+    logActivity($userId, 'project_created', 'project', $projectId, ['name' => $project['name']]);
+    
     jsonResponse(['success' => true, 'data' => $project, 'message' => 'Projekt erstellt']);
     
 } catch (Exception $e) {

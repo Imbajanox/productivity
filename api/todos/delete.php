@@ -42,6 +42,9 @@ try {
     // Delete the todo
     dbQuery("DELETE FROM todos WHERE id = ?", [$todoId]);
     
+    // Log activity
+    logActivity($userId, 'todo_deleted', 'todo', $todoId, ['title' => $existingTodo['title']]);
+    
     jsonResponse(['success' => true, 'message' => 'Todo gelöscht']);
     
 } catch (Exception $e) {

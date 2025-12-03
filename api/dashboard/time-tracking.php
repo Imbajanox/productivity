@@ -30,11 +30,6 @@ try {
 
     $totalSeconds = $timeEntries[0]['total_seconds'] ?? 0;
 
-    // Wenn keine Zeiten vorhanden sind, Demo-Daten verwenden
-    if ($totalSeconds == 0) {
-        $totalSeconds = 8 * 3600 + 30 * 60; // 8.5 Stunden
-    }
-
     jsonSuccess([
         'totalTime' => (int)$totalSeconds,
         'formattedTime' => formatDuration($totalSeconds),

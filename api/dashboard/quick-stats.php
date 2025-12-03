@@ -61,18 +61,6 @@ try {
     );
     $stats['totalHabits'] = (int)($totalHabits['count'] ?? 0);
 
-    // Wenn keine Daten vorhanden sind, Demo-Daten verwenden
-    if ($stats['totalTodos'] == 0 && $stats['totalNotes'] == 0 && $stats['totalProjects'] == 0) {
-        $stats = [
-            'totalTodos' => 24,
-            'completedTodos' => 18,
-            'totalNotes' => 12,
-            'totalProjects' => 3,
-            'totalSnippets' => 8,
-            'totalHabits' => 5
-        ];
-    }
-
     jsonSuccess($stats);
 } catch (Exception $e) {
     error_log('Dashboard quick stats error: ' . $e->getMessage());

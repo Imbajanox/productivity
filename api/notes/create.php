@@ -34,6 +34,9 @@ try {
         [$noteId]
     );
     
+    // Log activity
+    logActivity($userId, 'note_created', 'note', $noteId, ['title' => $note['title']]);
+    
     jsonResponse(['success' => true, 'data' => $note, 'message' => 'Notiz erstellt']);
     
 } catch (Exception $e) {

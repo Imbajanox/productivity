@@ -403,3 +403,26 @@ function statusLabel(string $status): string {
         default => 'Unbekannt'
     };
 }
+
+/**
+ * Aktivität protokollieren
+ * 
+ * @param int $userId Benutzer-ID
+ * @param string $actionType Typ der Aktion (z.B. 'todo_created', 'todo_completed')
+ * @param string|null $entityType Entitätstyp (z.B. 'todo', 'project')
+ * @param int|null $entityId ID der Entität
+ * @param array|null $metadata Zusätzliche Metadaten als Array
+ */
+function logActivity(int $userId, string $actionType, ?string $entityType = null, ?int $entityId = null, ?array $metadata = null): void {
+    try {
+        $metadataJson = $metadata ? json_encode($metadata, JSON_UNESCAPED_UNICODE) : null;
+        
+        dbInsert(
+            "INSERT INTO activity_log (user_id, action_type, entity_type, entity_id, metadata, created_at) VALUES (?, ?, ?, ?, ?, NOW())",
+            [$userId, $actionType, $entityType, $entityId, $metadataJson]
+        );
+    } catch (Exception $e) {
+        // Fehler nur loggen, nicht die ursprüngliche Aktion blockieren
+        error_log("Fehler beim Aktivitäts-Logging: " . $e->getMessage());
+    }
+}
