@@ -748,7 +748,7 @@ $user = currentUser();
 
             async function loadTodayTodos() {
                 try {
-                    const response = await api.get('/dashboard/today-todos');
+                    const response = await api.get('/api/dashboard/today-todos.php');
                     const content = document.getElementById('todayTodosContent');
                     const loading = document.getElementById('todayTodosLoading');
 
@@ -780,7 +780,7 @@ $user = currentUser();
 
             async function loadRecentActivity() {
                 try {
-                    const response = await api.get('/dashboard/recent-activity');
+                    const response = await api.get('/api/dashboard/recent-activity.php');
                     const content = document.getElementById('recentActivityContent');
                     const loading = document.getElementById('recentActivityLoading');
 
@@ -811,7 +811,7 @@ $user = currentUser();
 
             async function loadTimeTracking() {
                 try {
-                    const response = await api.get('/dashboard/time-tracking');
+                    const response = await api.get('/api/dashboard/time-tracking.php');
                     const content = document.getElementById('timeTrackingContent');
                     const loading = document.getElementById('timeTrackingLoading');
 
@@ -838,7 +838,7 @@ $user = currentUser();
 
             async function loadQuickStats() {
                 try {
-                    const response = await api.get('/dashboard/quick-stats');
+                    const response = await api.get('/api/dashboard/quick-stats.php');
                     const content = document.getElementById('quickStatsContent');
                     const loading = document.getElementById('quickStatsLoading');
 

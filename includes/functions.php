@@ -403,3 +403,81 @@ function statusLabel(string $status): string {
         default => 'Unbekannt'
     };
 }
+
+/**
+ * Aktivität protokollieren
+ * 
+ * @param int $userId Benutzer-ID
+ * @param string $actionType Typ der Aktion (z.B. 'todo_created', 'todo_completed')
+ * @param string|null $entityType Entitätstyp (z.B. 'todo', 'project')
+ * @param int|null $entityId ID der Entität
+ * @param array|null $metadata Zusätzliche Metadaten als Array
+ */
+function logActivity(int $userId, string $actionType, ?string $entityType = null, ?int $entityId = null, ?array $metadata = null): void {
+    try {
+        $metadataJson = null;
+        if ($metadata !== null) {
+            $metadataJson = json_encode($metadata, JSON_UNESCAPED_UNICODE);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                error_log("JSON encoding error in logActivity: " . json_last_error_msg());
+                return; // Nicht loggen wenn JSON-Encoding fehlschlägt
+            }
+        }
+        
+        dbInsert(
+            "INSERT INTO activity_log (user_id, action_type, entity_type, entity_id, metadata, created_at) VALUES (?, ?, ?, ?, ?, NOW())",
+            [$userId, $actionType, $entityType, $entityId, $metadataJson]
+        );
+    } catch (Exception $e) {
+        // Fehler nur loggen, nicht die ursprüngliche Aktion blockieren
+        error_log("Fehler beim Aktivitäts-Logging: " . $e->getMessage());
+    }
+}
+
+/**
+ * Aktivitätsbeschreibung für Anzeige formatieren
+ * 
+ * @param string $actionType Typ der Aktion
+ * @param array $metadata Metadaten der Aktivität
+ * @return string Formatierte Beschreibung
+ */
+function formatActivityDescription(string $actionType, array $metadata): string {
+    switch ($actionType) {
+        case 'todo_completed':
+            $title = $metadata['title'] ?? 'Todo';
+            return "Todo \"$title\" erledigt";
+        case 'todo_created':
+            $title = $metadata['title'] ?? 'Todo';
+            return "Todo \"$title\" erstellt";
+        case 'todo_updated':
+            $title = $metadata['title'] ?? 'Todo';
+            return "Todo \"$title\" aktualisiert";
+        case 'todo_deleted':
+            $title = $metadata['title'] ?? 'Todo';
+            return "Todo \"$title\" gelöscht";
+        case 'time_logged':
+            $duration = isset($metadata['duration_seconds']) ? formatDuration($metadata['duration_seconds']) : '?';
+            $projectName = $metadata['project_name'] ?? 'Allgemein';
+            return "$duration an \"$projectName\" gearbeitet";
+        case 'note_created':
+            $title = $metadata['title'] ?? 'Notiz';
+            return "Notiz \"$title\" erstellt";
+        case 'note_updated':
+            $title = $metadata['title'] ?? 'Notiz';
+            return "Notiz \"$title\" aktualisiert";
+        case 'note_deleted':
+            $title = $metadata['title'] ?? 'Notiz';
+            return "Notiz \"$title\" gelöscht";
+        case 'project_created':
+            $name = $metadata['name'] ?? 'Projekt';
+            return "Projekt \"$name\" erstellt";
+        case 'project_updated':
+            $name = $metadata['name'] ?? 'Projekt';
+            return "Projekt \"$name\" aktualisiert";
+        case 'project_deleted':
+            $name = $metadata['name'] ?? 'Projekt';
+            return "Projekt \"$name\" gelöscht";
+        default:
+            return ucfirst(str_replace('_', ' ', $actionType));
+    }
+}

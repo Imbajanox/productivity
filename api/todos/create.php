@@ -98,6 +98,9 @@ try {
         [$todoId]
     );
     
+    // Log activity
+    logActivity($userId, 'todo_created', 'todo', $todoId, ['title' => $todo['title']]);
+    
     jsonResponse(['success' => true, 'data' => $todo, 'message' => 'Todo erstellt']);
     
 } catch (Exception $e) {

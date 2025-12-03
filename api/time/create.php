@@ -50,6 +50,13 @@ try {
         [$entryId]
     );
     
+    // Log activity
+    logActivity($userId, 'time_logged', 'time_entry', $entryId, [
+        'duration_seconds' => $duration,
+        'project_id' => $entry['project_id'],
+        'project_name' => $entry['project_name']
+    ]);
+    
     jsonResponse(['success' => true, 'data' => $entry, 'message' => 'Eintrag erstellt']);
     
 } catch (Exception $e) {
