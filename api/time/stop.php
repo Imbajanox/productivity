@@ -5,6 +5,7 @@
  */
 
 require_once __DIR__ . '/../../includes/init.php';
+require_once __DIR__ . '/../../includes/functions.php';
 
 requireAuth();
 
@@ -54,6 +55,12 @@ try {
          WHERE te.id = ?",
         [$timerId]
     );
+
+    logActivity($userId, 'time_logged', 'time_entry', $timerId, [
+        'duration_seconds' => $duration,
+        'project_id' => $updatedTimer['project_id'],
+        'project_name' => $updatedTimer['project_name']
+    ]);
     
     jsonResponse(['success' => true, 'data' => $updatedTimer, 'message' => 'Timer gestoppt']);
     
