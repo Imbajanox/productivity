@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.19",
+    "@fullcalendar/daygrid": "^6.1.19",
+    "@fullcalendar/list": "^6.1.19",
+    "@fullcalendar/timegrid": "^6.1.19",
+    "chart.js": "^4.5.1",
+    "highlight.js": "^11.11.1",
+    "quill": "^2.0.3",
+    "sortablejs": "^1.15.6"
+  }
+}

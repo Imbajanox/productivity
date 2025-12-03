@@ -1,0 +1,86 @@
+# ===========================================
+# Produktivitätstool - .gitignore
+# ===========================================
+
+# Dependencies
+/node_modules/
+/vendor/
+
+# Environment & Configuration
+.env
+.env.local
+.env.*.local
+config.local.php
+includes/config.local.php
+
+# IDE & Editor
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+error_log
+php_error.log
+
+# Cache
+*.cache
+.cache/
+cache/
+
+# Compiled/Build
+dist/
+build/
+*.min.js
+*.min.css
+
+# Uploads & User Data
+/uploads/
+/storage/
+/backups/
+
+# Database
+*.sql
+!database/schema.sql
+!database/migrations/*.sql
+
+# Package lock files (optional - uncomment if you want to ignore)
+# package-lock.json
+# composer.lock
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# PHP specific
+*.phar
+
+# Testing
+coverage/
+.phpunit.result.cache
+phpunit.xml
+
+# Documentation (generated)
+docs/api/
+
+# Misc
+*.zip
+*.tar.gz
+*.rar

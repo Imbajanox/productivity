@@ -1,0 +1,362 @@
+/* =====================================================
+   Produktivitätstool - Notes CSS
+   ===================================================== */
+
+/* Notes Layout */
+.notes-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 0;
+    height: calc(100vh - 70px);
+    margin: calc(var(--spacing-lg) * -1);
+}
+
+/* Sidebar */
+.notes-sidebar {
+    background: var(--bg-color);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.notes-sidebar-header {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.notes-sidebar-header .btn {
+    width: 100%;
+    margin-bottom: var(--spacing-sm);
+}
+
+.notes-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.notes-search i {
+    position: absolute;
+    left: var(--spacing-sm);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.notes-search input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-sm) calc(var(--spacing-sm) * 2 + 14px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    color: var(--text-color);
+    font-size: 0.875rem;
+}
+
+.notes-filter {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.notes-filter .form-select {
+    width: 100%;
+    font-size: 0.875rem;
+}
+
+/* Notes List */
+.notes-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-sm);
+}
+
+.note-item {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-bottom: var(--spacing-xs);
+    position: relative;
+}
+
+.note-item:hover {
+    background: var(--bg-secondary);
+}
+
+.note-item.active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+.note-item.pinned {
+    background: var(--bg-tertiary);
+}
+
+.note-item .pin-icon {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    color: var(--primary);
+    font-size: 0.75rem;
+    transform: rotate(45deg);
+}
+
+.note-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-xs);
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: var(--spacing-md);
+}
+
+.note-preview {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-xs);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.note-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.75rem;
+}
+
+.note-date {
+    color: var(--text-muted);
+}
+
+.note-project {
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    color: white;
+    font-size: 0.7rem;
+}
+
+/* Main Editor Area */
+.notes-main {
+    background: var(--bg-secondary);
+    overflow: hidden;
+}
+
+.note-editor-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Empty State */
+.note-empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.note-empty-state .empty-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.note-empty-state h2 {
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
+}
+
+/* Note Editor */
+.note-editor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--bg-color);
+}
+
+.note-editor.hidden {
+    display: none;
+}
+
+.note-editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.note-title-input {
+    flex: 1;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    outline: none;
+}
+
+.note-title-input::placeholder {
+    color: var(--text-muted);
+}
+
+.note-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.note-actions .btn-ghost {
+    padding: var(--spacing-sm);
+    color: var(--text-secondary);
+}
+
+.note-actions .btn-ghost:hover {
+    background: var(--bg-secondary);
+    color: var(--text-color);
+}
+
+.note-actions .btn-ghost.active {
+    color: var(--primary);
+}
+
+.note-editor-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.note-editor-meta .form-select {
+    width: auto;
+    min-width: 150px;
+}
+
+.note-updated {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* Quill Editor */
+#quillEditor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.ql-container {
+    flex: 1;
+    overflow-y: auto;
+    font-family: var(--font-family);
+    font-size: 1rem;
+}
+
+.ql-editor {
+    padding: var(--spacing-lg);
+    min-height: 100%;
+}
+
+.ql-editor:focus {
+    outline: none;
+}
+
+.ql-toolbar {
+    border: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    background: var(--bg-secondary);
+}
+
+.ql-container {
+    border: none !important;
+}
+
+/* Dark mode Quill overrides */
+[data-theme="dark"] .ql-toolbar {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .ql-toolbar .ql-stroke {
+    stroke: var(--text-secondary);
+}
+
+[data-theme="dark"] .ql-toolbar .ql-fill {
+    fill: var(--text-secondary);
+}
+
+[data-theme="dark"] .ql-toolbar button:hover .ql-stroke,
+[data-theme="dark"] .ql-toolbar button.ql-active .ql-stroke {
+    stroke: var(--primary);
+}
+
+[data-theme="dark"] .ql-toolbar button:hover .ql-fill,
+[data-theme="dark"] .ql-toolbar button.ql-active .ql-fill {
+    fill: var(--primary);
+}
+
+[data-theme="dark"] .ql-toolbar .ql-picker-label {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .ql-toolbar .ql-picker-options {
+    background: var(--bg-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .ql-editor {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .ql-editor.ql-blank::before {
+    color: var(--text-muted);
+}
+
+/* Code blocks */
+.ql-editor pre.ql-syntax {
+    background: var(--bg-tertiary);
+    color: var(--text-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    overflow-x: auto;
+}
+
+/* Empty State in list */
+.notes-list .empty-state {
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .notes-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .notes-sidebar {
+        position: fixed;
+        left: 0;
+        top: 60px;
+        bottom: 0;
+        width: 280px;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform var(--transition-normal);
+    }
+    
+    .notes-sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .notes-main {
+        padding-left: 0;
+    }
+}
