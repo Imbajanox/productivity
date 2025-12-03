@@ -173,16 +173,16 @@ try {
     // Log activity - especially if todo was completed
     if (isset($data['status'])) {
         if ($data['status'] === 'done' && $existingTodo['status'] !== 'done') {
-            logActivity($userId, 'todo_completed', 'todo', $todoId, ['title' => $todo['title']]);
+            logActivity($userId, 'todo_completed', 'todo', $todoId, ['title' => $existingTodo['title']]);
         } elseif ($data['status'] !== $existingTodo['status']) {
             logActivity($userId, 'todo_updated', 'todo', $todoId, [
-                'title' => $todo['title'],
+                'title' => $existingTodo['title'],
                 'old_status' => $existingTodo['status'],
                 'new_status' => $data['status']
             ]);
         }
     } else {
-        logActivity($userId, 'todo_updated', 'todo', $todoId, ['title' => $todo['title']]);
+        logActivity($userId, 'todo_updated', 'todo', $todoId, ['title' => $existingTodo['title']]);
     }
     
     jsonResponse(['success' => true, 'data' => $todo, 'message' => 'Todo aktualisiert']);
